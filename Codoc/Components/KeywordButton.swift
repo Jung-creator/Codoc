@@ -1,0 +1,36 @@
+//
+//  KeywordButton.swift
+//  Codoc
+//
+//  Created by Choi Jung In on 8/23/25.
+//
+
+import SwiftUI
+
+// 얇은 Stroke가 있는 키워드 버튼 컴포넌트
+struct KeywordButton: View {
+    let title: String
+    let borderColor: Color
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(FontStyle.medium2.font)
+                .foregroundStyle(.textGray)
+                .frame(maxWidth: .infinity)
+                .frame(height: DesignSystem.keywordButtonHeight)
+                .background(borderColor.opacity(0.05))
+                .overlay(
+                    RoundedRectangle(cornerRadius: DesignSystem.keywordButtonRounding)
+                        .stroke(borderColor, lineWidth: 1)
+                )
+        }
+        .padding(DesignSystem.paddingMedium)
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+#Preview {
+    KeywordButton(title: "MainActor", borderColor: .blue, action: {})
+}
