@@ -1,20 +1,121 @@
 import SwiftUI
 
-/**
- * 메인 화면 - 키워드 버튼들을 그리드 형태로 표시
- * 
- * 주요 기능:
- * - Swift 관련 키워드 버튼들을 20개 정도 표시
- * - 아카이빙된 키워드는 색상으로 구분
- * - 키워드 클릭 시 DocsSummaryView로 네비게이션
- * - 스크롤 가능한 그리드 레이아웃
- */
 struct MainView: View {
-    @StateObject private var viewModel = MainViewModel()
-    @State private var navigationPath: [NavigationPath] = []
+    @State private var navigationPath = NavigationPath()
     @State private var selectedTab = 0
     
     var body: some View {
-        Text("hello")
+        TabView(selection: $selectedTab) {
+            // 메인 탭
+            NavigationStack(path: $navigationPath) {
+                VStack(spacing: 20) {
+                    Text("🚀 Codoc")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text("Swift 키워드 학습")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 15) {
+                        ForEach(["Binding", "State", "View", "ObservableObject", "Published", "Environment"], id: \.self) { keyword in
+                            Button(keyword) {
+                                navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .cornerRadius(8)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
+                .navigationTitle("메인")
+                .navigationDestination(for: AppNavigationPath.self) { path in
+                    switch path {
+                    case .docsSummary(let keyword):
+                        DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
+                    case .quiz(let keyword):
+                        QuizView(keyword: keyword, navigationPath: $navigationPath)
+                    case .quizResult(let keyword, let isCorrect):
+                        QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
+                    case .sectionSelection(let keyword):
+                        HighlightListView(keyword: keyword, navigationPath: $navigationPath)
+                    case .archiveDetail(let keyword):
+                        ArchiveDetailView(keyword: keyword, navigationPath: $navigationPath)
+                    }
+                }
+            }
+            .tabItem {
+                Image(systemName: "house")
+                Text("메인")
+            }
+            .tag(0)
+            
+            // 아카이빙 탭
+            NavigationStack(path: $navigationPath) {
+                ArchiveListView(navigationPath: $navigationPath)
+                    .navigationDestination(for: AppNavigationPath.self) { path in
+                        switch path {
+                        case .archiveDetail(let keyword):
+                            ArchiveDetailView(keyword: keyword, navigationPath: $navigationPath)
+                        default:
+                            EmptyView()
+                        }
+                    }
+            }
+            .tabItem {
+                Image(systemName: "bookmark")
+                Text("아카이빙")
+            }
+            .tag(1)
+        }
+    }
+}
+
+// 아카이빙 디테일 뷰 (임시)
+struct ArchiveDetailView: View {
+    let keyword: String
+    @Binding var navigationPath: NavigationPath
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("📚 \(keyword) 아카이빙")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            Text("저장된 섹션들")
+                .font(.headline)
+                .foregroundColor(.secondary)
+            
+            VStack(spacing: 10) {
+                Text("개요")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(8)
+                
+                Text("예시 코드")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green.opacity(0.1))
+                    .cornerRadius(8)
+            }
+            
+            Button("삭제") {
+                navigationPath.removeLast()
+            }
+            .padding()
+            .background(Color.red)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+            
+            Spacer()
+        }
+        .padding()
+        .navigationTitle(keyword)
     }
 }
