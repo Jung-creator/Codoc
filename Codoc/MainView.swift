@@ -120,7 +120,6 @@ struct ArchiveDetailView: View {
     }
 }
 
-
 #Preview {
     MainView()
 }
