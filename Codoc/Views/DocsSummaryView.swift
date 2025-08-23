@@ -56,29 +56,29 @@ struct DocsSummaryView: View {
                                 Spacer()
                             }
                             
-                            // 문서 요약 카드 컴포넌트
-                            DocsSummaryCard(
+                            // 문서 요약 카드 컴포넌트 (HighlightText 사용)
+                            DocsSummaryHighlightCard(
                                 title: "전체 개요",
-                                content: summary.overview.content)
+                                highlightText: summary.overview)
                             
                             CodeBlock(content: summary.codeSnippet)
                             
                             HStack {
-                                DocsSummaryHalfCard(title: "", content: summary.features[0].content)
+                                DocsSummaryHighlightHalfCard(title: "", highlightText: summary.features[0])
                                 Spacer()
-                                DocsSummaryHalfCard(title: "", content: summary.features[1].content)
+                                DocsSummaryHighlightHalfCard(title: "", highlightText: summary.features[1])
                             }
                             
-                            DocsSummaryCard(
+                            DocsSummaryHighlightCard(
                                 title: "주의 사항",
-                                content: summary.caution.content,
+                                highlightText: summary.caution,
                                 isDocs: false)
                             
                             DocsSummaryChipCard(title: "연관 키워드", keywords: summary.relatedKeywords)
                             
-                            DocsSummaryCard(
+                            DocsSummaryHighlightCard(
                                 title: "AI 전체 요약",
-                                content: summary.aiSummary.content,
+                                highlightText: summary.aiSummary,
                                 isDocs: false)
                             
                             NaviButton(title: "퀴즈 풀기") {

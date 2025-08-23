@@ -15,12 +15,12 @@ struct KeywordButton: View {
     
     var body: some View {
         Button(action: action) {
+            
             Text(title)
                 .font(FontStyle.medium2.font)
                 .foregroundStyle(.textGray)
                 .lineLimit(1)
                 .fixedSize()
-//                .frame(maxWidth: .infinity)
                 .padding(.horizontal, 12)
                 .frame(height: DesignSystem.keywordButtonHeight)
                 .background(borderColor.opacity(0.05))

@@ -25,6 +25,11 @@ struct MainViewMock: View {
                         .ignoresSafeArea()
                     VStack(alignment: .leading) {
                         Spacer()
+                        Image("sticky-note")
+                            .resizable()
+                            .frame(width: 56, height: 56)
+                            .opacity(0.5)
+                        
                         Text("학습하려는 키워드를 선택하세요")
                             .font(FontStyle.bold5.font)
                             .foregroundStyle(.textGray)
