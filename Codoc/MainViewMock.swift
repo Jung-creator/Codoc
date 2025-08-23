@@ -77,8 +77,8 @@ struct MainViewMock: View {
                         switch path {
                         case .docsSummary(let keyword):
                             DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
-                        case .quiz(let keyword):
-                            QuizView(keyword: keyword, navigationPath: $navigationPath)
+                        case .quiz(let keyword, let quiz):
+                            QuizView(keyword: keyword, quiz: quiz, navigationPath: $navigationPath)
                         case .quizResult(let keyword, let isCorrect):
                             QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
                         case .sectionSelection(let keyword):

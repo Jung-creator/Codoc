@@ -82,7 +82,7 @@ struct DocsSummaryView: View {
                                 isDocs: false)
                             
                             NaviButton(title: "퀴즈 풀기") {
-                                navigationPath.append(AppNavigationPath.quiz(keyword: keyword))
+                                navigationPath.append(AppNavigationPath.quiz(keyword: keyword, quiz: summary.quiz))
                             }
                             .padding(.top)
                             

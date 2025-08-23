@@ -32,6 +32,7 @@ struct CodeBlock: View {
         .background(.textGray)
         .background(
             RoundedRectangle(cornerRadius: 16)
+                .fill(.black)
         )
     }
 }

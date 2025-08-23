@@ -15,7 +15,7 @@ struct KeywordSummary: Codable {
     let aiSummary: HighlightText
 }
 
-struct Quiz: Codable {
+struct Quiz: Codable, Equatable, Hashable {
     let question: String
     let description: String
     let codeExample: String
@@ -23,7 +23,7 @@ struct Quiz: Codable {
     let answer: Answer
 }
 
-struct Answer: Codable {
+struct Answer: Codable, Equatable, Hashable {
     let location: String
     let reason: String
 }
