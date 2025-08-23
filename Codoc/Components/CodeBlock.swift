@@ -29,10 +29,9 @@ struct CodeBlock: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.textGray)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(.black)
+                .fill(.textGray)
         )
     }
 }

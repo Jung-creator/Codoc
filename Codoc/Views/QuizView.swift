@@ -24,21 +24,22 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // 퀴즈 제목
                     Text("퀴즈를 맞춰보세요")
-                        .font(FontStyle.bold4.font)
-                        .foregroundStyle(.textGray)
+                        .font(FontStyle.medium2.font)
+                        .foregroundStyle(.captionGray)
+                        .padding(.bottom, -8)
                     
                     
                     // 문제 설명
                     Text(quiz.question)
-                        .font(FontStyle.regular3.font)
-                        .lineSpacing(FontStyle.regular3.lineSpacing)
+                        .font(FontStyle.bold3.font)
+                        .lineSpacing(FontStyle.bold3.lineSpacing)
                         .foregroundStyle(.textGray)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(8)
                 
-
+                
                 
                 // 코드 블록
                 QuizCodeBlock(codeContent: quiz.codeExample)
@@ -81,10 +82,15 @@ struct QuizView: View {
         
         // 정답 확인
         let correctAnswer = quiz.answer.location
-        let isCorrect = selectedOption == correctAnswer
+        let index = correctAnswer.index(correctAnswer.startIndex, offsetBy: 0)
+        let secondChar = correctAnswer[index]
+        let secondCharAsString = String(secondChar).uppercased()
+        let isCorrect = selectedOption == secondCharAsString
+        
+        
         
         // 결과 화면으로 이동
-        navigationPath.append(AppNavigationPath.quizResult(keyword: keyword, isCorrect: isCorrect))
+        navigationPath.append(AppNavigationPath.quizResult(keyword: keyword, quiz: quiz, isCorrect: isCorrect))
     }
 }
 
@@ -93,7 +99,7 @@ struct QuizView: View {
         QuizView(
             keyword: "MainActor",
             quiz: Quiz(
-                question: "네트워크에서 값을 받아 @Published 상태를 갱신한 뒤 SwiftUI가 UI를 그리도록 합니다. UI 상태 변경은 메인 스레드에서 보장돼야 합니다. 어느 위치에 @MainActor를 적용해야 가장 안전하고 일관적으로 UI 갱신이 보장될까요?",
+                question: "어느 부분에 [MainActor]를 넣어야하는가?",
                 description: "MainActor 사용법에 대한 퀴즈입니다.",
                 codeExample: """
                 class NetworkManager: ObservableObject {
