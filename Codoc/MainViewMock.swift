@@ -31,7 +31,7 @@ struct MainViewMock: View {
                         Spacer()
                             .frame(height: 16)
                         
-                        Text("공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
+                        Text("Apple 공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
                             .font(FontStyle.regular3.font)
                             .foregroundStyle(.captionGray)
                         Spacer()
