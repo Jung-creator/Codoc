@@ -26,7 +26,7 @@ struct KeywordButton: View {
                 .background(borderColor.opacity(0.05))
                 .overlay(
                     RoundedRectangle(cornerRadius: DesignSystem.keywordButtonRounding)
-                        .stroke(borderColor, lineWidth: 1)
+                        .stroke(borderColor.opacity(0.5), lineWidth: 1)
                 )
         }
         .padding(2)

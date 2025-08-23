@@ -4,6 +4,14 @@ struct MainViewMock: View {
     @State private var navigationPath = NavigationPath()
     @State private var selectedTab = 0
     
+    // 랜덤 색상 배열
+    private let randomColors: [Color] = [.blueMain, .yellowMain, .redMain]
+    
+    // 랜덤 색상 반환 함수
+    private func getRandomColor() -> Color {
+        randomColors.randomElement() ?? .blueMain
+    }
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             // 메인 탭
@@ -16,19 +24,24 @@ struct MainViewMock: View {
                         )
                         .ignoresSafeArea()
                     VStack(alignment: .leading) {
+                        Spacer()
                         Text("학습하려는 키워드를 선택하세요")
                             .font(FontStyle.bold5.font)
                             .foregroundStyle(.textGray)
+                        Spacer()
+                            .frame(height: 16)
                         
                         Text("공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
                             .font(FontStyle.regular3.font)
                             .foregroundStyle(.captionGray)
+                        Spacer()
+                            .frame(height: 72)
                         
                         HStack {
                             ForEach(["Binding", "State", "ObservableObject"], id: \.self) { keyword in
                                 KeywordButton(
                                     title: keyword,
-                                    borderColor: .blueMain,
+                                    borderColor: getRandomColor(),
                                     action: {
                                         navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
                                     }
@@ -39,7 +52,7 @@ struct MainViewMock: View {
                             ForEach(["Sendable","EnvironmentObject",  "Actor"], id: \.self) { keyword in
                                 KeywordButton(
                                     title: keyword,
-                                    borderColor: .blueMain,
+                                    borderColor: getRandomColor(),
                                     action: {
                                         navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
                                     }
@@ -50,7 +63,7 @@ struct MainViewMock: View {
                             ForEach(["Actor","MainActor", "Task"], id: \.self) { keyword in
                                 KeywordButton(
                                     title: keyword,
-                                    borderColor: .blueMain,
+                                    borderColor: getRandomColor(),
                                     action: {
                                         navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
                                     }
@@ -77,7 +90,7 @@ struct MainViewMock: View {
                 }
             }
             .tabItem {
-                Image(systemName: "house")
+                Image(systemName: "button.angledbottom.horizontal.right.fill")
             }
             .tag(0)
             
@@ -94,10 +107,11 @@ struct MainViewMock: View {
                     }
             }
             .tabItem {
-                Image(systemName: "bookmark")
+                Image(systemName: "text.justify.left")
             }
             .tag(1)
         }
+        .tint(.blueMain)
     }
 }
 
