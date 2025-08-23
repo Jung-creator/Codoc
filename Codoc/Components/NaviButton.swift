@@ -24,7 +24,7 @@ struct NaviButton: View {
             }
             .frame(height: 56)
             .padding(.horizontal, 32)
-            .background(Color.black)
+            .background(.blueMain)
             .cornerRadius(28) // 매우 둥근 모서리 (pill 모양)
         }
         .buttonStyle(PlainButtonStyle())

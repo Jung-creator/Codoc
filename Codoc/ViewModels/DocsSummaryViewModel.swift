@@ -1,3 +1,10 @@
+//
+//  DocsSummaryViewModel.swift
+//  Codoc
+//
+//  Created by Choi Jung In on 8/24/25.
+//
+
 import Foundation
 import Moya
 import Combine
@@ -91,7 +98,7 @@ class DocsSummaryViewModel: ObservableObject {
                 "question": "어느 부분에 [키워드]를 넣어야 하는가?",
                 "description": "문제 설명",
                 "codeExample": "코드 예시",
-                "options": ["(a)", "(b)", "(c)", "(d)"],
+                "options": ["A", "B", "C", "D"],
                 "answer": {
                     "location": "키워드를 넣어야 하는 정확한 위치",
                     "reason": "정답에 대한 이유"
@@ -255,4 +262,9 @@ class DocsSummaryViewModel: ObservableObject {
     }
 
 }
-
+//
+//  DocsSummaryViewModel.swift
+//  Codoc
+//
+//  Created by Choi Jung In on 8/24/25.
+//

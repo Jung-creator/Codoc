@@ -16,160 +16,96 @@ struct DocsSummaryView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                Text("📚 \(keyword) 문서 요약")
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                if viewModel.isLoading {
-                    ProgressView("문서 요약 중...")
-                        .padding()
-                } else if let errorMessage = viewModel.errorMessage {
-                    VStack {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.largeTitle)
-                            .foregroundColor(.orange)
-                        Text(errorMessage)
-                            .foregroundColor(.red)
-                        Button("다시 시도") {
-                            viewModel.fetchDocsSummary(for: keyword)
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+        Group {
+            if viewModel.isLoading {
+                ProgressView("문서 요약 중...")
+                    .padding()
+            } else if let errorMessage = viewModel.errorMessage {
+                VStack {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundColor(.orange)
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                    Button("다시 시도") {
+                        viewModel.fetchDocsSummary(for: keyword)
                     }
                     .padding()
-                } else if let summary = viewModel.docsSummary {
-                    // 개요 섹션
-                    
-                    SummarySection(
-                        title: "📖 개요",
-                        content: summary.overview.content,
-                        highlights: summary.overview.highlights
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                }
+                .padding()
+            } else if let summary = viewModel.docsSummary {
+                ZStack {
+                    LinearGradient(
+                        colors: [.yellow.opacity(0), .yellow.opacity(0.15)],
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-                    
-                    
-                    // 예시 코드 섹션
-                    
-                    SummarySection(
-                        title: "💻 예시 코드",
-                        content: summary.codeSnippet,
-                        highlights: []
-                    )
-                    
-
-                    // 주요 특징 섹션들
-                    let feats = summary.features
-                    if !feats.isEmpty {
-                        ForEach(Array(feats.prefix(2)).indices, id: \.self) { i in
-                            let f = feats[i]
-                            SummarySection(
-                                title: "⭐ 주요 특징 \(i + 1)",
-                                content: f.content,
-                                highlights: f.highlights
-                            )
-                        }
-                    }
-                    
-                    // 주의사항 섹션
-                    
-                    SummarySection(
-                        title: "⚠️ 주의사항",
-                        content: summary.caution.content,
-                        highlights: summary.caution.highlights
-                    )
-                    
-                    
-                    // 연관 키워드 섹션
-                    let relatedKeywords = summary.relatedKeywords
-                    if !relatedKeywords.isEmpty {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("🔗 연관 키워드")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
-                                ForEach(relatedKeywords, id: \.self) { keyword in
-                                    Text(keyword)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.blue.opacity(0.1))
-                                        .foregroundColor(.blue)
-                                        .cornerRadius(16)
-                                }
+                    .ignoresSafeArea()
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 16) {
+                            Spacer()
+                                .frame(height: 24)
+                            HStack {
+                                Text(keyword)
+                                    .font(FontStyle.bold5.font)
+                                    .foregroundStyle(.textGray)
+                                    .padding(.bottom)
+                                Spacer()
                             }
+                            
+                            // 문서 요약 카드 컴포넌트
+                            DocsSummaryCard(
+                                title: "전체 개요",
+                                content: summary.overview.content)
+                            
+                            CodeBlock(content: summary.codeSnippet)
+                            
+                            HStack {
+                                DocsSummaryHalfCard(title: "", content: summary.features[0].content)
+                                Spacer()
+                                DocsSummaryHalfCard(title: "", content: summary.features[1].content)
+                            }
+                            
+                            DocsSummaryCard(
+                                title: "주의 사항",
+                                content: summary.caution.content,
+                                isDocs: false)
+                            
+                            DocsSummaryChipCard(title: "연관 키워드", keywords: summary.relatedKeywords)
+                            
+                            DocsSummaryCard(
+                                title: "AI 전체 요약",
+                                content: summary.aiSummary.content,
+                                isDocs: false)
+                            
+                            NaviButton(title: "퀴즈 풀기") {
+                                navigationPath.append(AppNavigationPath.quiz(keyword: keyword, quiz: summary.quiz))
+                            }
+                            .padding(.top)
+                            
+                            Spacer()
                         }
-                        .padding()
-                        .background(Color.gray.opacity(0.05))
-                        .cornerRadius(12)
                     }
-                    
-                    // AI 전체 요약 섹션
-                    
-                    SummarySection(
-                        title: "🤖 AI 전체 요약",
-                        content: summary.aiSummary.content,
-                        highlights: summary.aiSummary.highlights
-                    )
-                    
-                    
-                    // 액션 버튼들
-                    HStack(spacing: 15) {
-                        Button("퀴즈 풀기") {
-                            navigationPath.append(AppNavigationPath.quiz(keyword: keyword))
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        
-                        Button("섹션 선택") {
-                            navigationPath.append(AppNavigationPath.sectionSelection(keyword: keyword))
-                        }
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                    }
-                } else {
-                    Text("문서를 불러오는 중...")
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(8)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
                 }
                 
-                Spacer()
+            } else {
+                // 초기 상태 또는 데이터가 없는 경우
+                VStack {
+                    ProgressView("문서 요약을 준비 중...")
+                        .padding()
+                }
             }
-            .padding()
         }
         .navigationTitle(keyword)
         .onAppear {
-            viewModel.fetchDocsSummary(for: keyword)
+            // onAppear를 최상위 레벨로 이동
+            if viewModel.docsSummary == nil && !viewModel.isLoading {
+                viewModel.fetchDocsSummary(for: keyword)
+            }
         }
-    }
-}
-
-// 요약 섹션 컴포넌트
-struct SummarySection: View {
-    let title: String
-    let content: String
-    let highlights: [String]
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.headline)
-                .fontWeight(.semibold)
-            
-            Text(content)
-                .font(.body)
-                .lineSpacing(4)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.gray.opacity(0.05))
-        .cornerRadius(12)
     }
 }

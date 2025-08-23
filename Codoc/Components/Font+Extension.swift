@@ -22,7 +22,7 @@ internal enum FontStyle {
     case .medium2: return .custom("Pretendard-Medium", size: 16)
     case .medium3: return .custom("Pretendard-Medium", size: 18)
       
-    case .bold1: return .custom("Pretendard-Bold", size: 12)
+    case .bold1: return .custom("Pretendard-Bold", size: 14)
     case .bold2: return .custom("Pretendard-Bold", size: 16)
     case .bold3: return .custom("Pretendard-Bold", size: 20)
     case .bold4: return .custom("Pretendard-Bold", size: 24)

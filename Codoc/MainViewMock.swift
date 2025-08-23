@@ -31,7 +31,7 @@ struct MainViewMock: View {
                         Spacer()
                             .frame(height: 16)
                         
-                        Text("공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
+                        Text("Apple 공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
                             .font(FontStyle.regular3.font)
                             .foregroundStyle(.captionGray)
                         Spacer()
@@ -77,8 +77,8 @@ struct MainViewMock: View {
                         switch path {
                         case .docsSummary(let keyword):
                             DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
-                        case .quiz(let keyword):
-                            QuizView(keyword: keyword, navigationPath: $navigationPath)
+                        case .quiz(let keyword, let quiz):
+                            QuizView(keyword: keyword, quiz: quiz, navigationPath: $navigationPath)
                         case .quizResult(let keyword, let isCorrect):
                             QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
                         case .sectionSelection(let keyword):
