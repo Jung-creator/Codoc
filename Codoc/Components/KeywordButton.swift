@@ -18,7 +18,10 @@ struct KeywordButton: View {
             Text(title)
                 .font(FontStyle.medium2.font)
                 .foregroundStyle(.textGray)
-                .frame(maxWidth: .infinity)
+                .lineLimit(1)
+                .fixedSize()
+//                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 12)
                 .frame(height: DesignSystem.keywordButtonHeight)
                 .background(borderColor.opacity(0.05))
                 .overlay(
@@ -26,11 +29,11 @@ struct KeywordButton: View {
                         .stroke(borderColor, lineWidth: 1)
                 )
         }
-        .padding(DesignSystem.paddingMedium)
+        .padding(2)
         .buttonStyle(PlainButtonStyle())
     }
 }
 
 #Preview {
-    KeywordButton(title: "MainActor", borderColor: .blue, action: {})
+    KeywordButton(title: "MainActor", borderColor: .blueMain, action: {})
 }

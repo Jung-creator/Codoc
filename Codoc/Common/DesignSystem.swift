@@ -12,4 +12,6 @@ public enum DesignSystem {
     static let keywordButtonRounding: CGFloat = 8
     
     static let paddingMedium: CGFloat = 8
+    
+    static let horizontalPadding: CGFloat = 20
 }

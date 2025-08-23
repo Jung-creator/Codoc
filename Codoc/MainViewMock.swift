@@ -8,50 +8,76 @@ struct MainViewMock: View {
         TabView(selection: $selectedTab) {
             // 메인 탭
             NavigationStack(path: $navigationPath) {
-                VStack(spacing: 20) {
-                    Text("🚀 Codoc")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Text("Swift 키워드 학습")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 15) {
-                        ForEach(["Binding", "State", "View", "ObservableObject", "Published", "Environment"], id: \.self) { keyword in
-                            Button(keyword) {
-                                navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
+                ZStack {
+                    LinearGradient(
+                        colors: [.yellow.opacity(0), .yellow.opacity(0.15)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .ignoresSafeArea()
+                    VStack(alignment: .leading) {
+                        Text("학습하려는 키워드를 선택하세요")
+                            .font(FontStyle.bold5.font)
+                            .foregroundStyle(.textGray)
+                        
+                        Text("공식 문서를 우선 번역 및 정리하고\n부족한 부분은 Solar Pro 2가 채워줘요")
+                            .font(FontStyle.regular3.font)
+                            .foregroundStyle(.captionGray)
+                        
+                        HStack {
+                            ForEach(["Binding", "State", "ObservableObject"], id: \.self) { keyword in
+                                KeywordButton(
+                                    title: keyword,
+                                    borderColor: .blueMain,
+                                    action: {
+                                        navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
+                                    }
+                                )
                             }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue.opacity(0.1))
-                            .foregroundColor(.blue)
-                            .cornerRadius(8)
                         }
+                        HStack {
+                            ForEach(["Sendable","EnvironmentObject",  "Actor"], id: \.self) { keyword in
+                                KeywordButton(
+                                    title: keyword,
+                                    borderColor: .blueMain,
+                                    action: {
+                                        navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
+                                    }
+                                )
+                            }
+                        }
+                        HStack {
+                            ForEach(["Actor","MainActor", "Task"], id: \.self) { keyword in
+                                KeywordButton(
+                                    title: keyword,
+                                    borderColor: .blueMain,
+                                    action: {
+                                        navigationPath.append(AppNavigationPath.docsSummary(keyword: keyword))
+                                    }
+                                )
+                            }
+                        }
+                        Spacer()
                     }
-                    
-                    Spacer()
-                }
-                .padding()
-                .navigationTitle("메인")
-                .navigationDestination(for: AppNavigationPath.self) { path in
-                    switch path {
-                    case .docsSummary(let keyword):
-                        DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
-                    case .quiz(let keyword):
-                        QuizView(keyword: keyword, navigationPath: $navigationPath)
-                    case .quizResult(let keyword, let isCorrect):
-                        QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
-                    case .sectionSelection(let keyword):
-                        HighlightListView(keyword: keyword, navigationPath: $navigationPath)
-                    case .archiveDetail(let keyword):
-                        ArchiveDetailViewMock(keyword: keyword, navigationPath: $navigationPath)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .navigationDestination(for: AppNavigationPath.self) { path in
+                        switch path {
+                        case .docsSummary(let keyword):
+                            DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
+                        case .quiz(let keyword):
+                            QuizView(keyword: keyword, navigationPath: $navigationPath)
+                        case .quizResult(let keyword, let isCorrect):
+                            QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
+                        case .sectionSelection(let keyword):
+                            HighlightListView(keyword: keyword, navigationPath: $navigationPath)
+                        case .archiveDetail(let keyword):
+                            ArchiveDetailViewMock(keyword: keyword, navigationPath: $navigationPath)
+                        }
                     }
                 }
             }
             .tabItem {
                 Image(systemName: "house")
-                Text("메인")
             }
             .tag(0)
             
@@ -69,7 +95,6 @@ struct MainViewMock: View {
             }
             .tabItem {
                 Image(systemName: "bookmark")
-                Text("아카이빙")
             }
             .tag(1)
         }
