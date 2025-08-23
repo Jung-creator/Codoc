@@ -119,3 +119,7 @@ struct ArchiveDetailView: View {
         .navigationTitle(keyword)
     }
 }
+
+#Preview {
+    MainView()
+}
