@@ -11,7 +11,7 @@ struct DocsSummaryView: View {
         self._navigationPath = navigationPath
         // API 키를 여기에 직접 입력하거나 환경변수에서 가져오기
         self._viewModel = StateObject(wrappedValue: DocsSummaryViewModel(
-            apiKey: "up_t0pjQtQK1gTSFUDVyX6sUE02HyDHR"
+            apiKey: ""
         ))
     }
     
