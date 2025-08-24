@@ -25,6 +25,11 @@ struct MainViewMock: View {
                         .ignoresSafeArea()
                     VStack(alignment: .leading) {
                         Spacer()
+                        Image("sticky-note")
+                            .resizable()
+                            .frame(width: 56, height: 56)
+                            .opacity(0.5)
+                        
                         Text("학습하려는 키워드를 선택하세요")
                             .font(FontStyle.bold5.font)
                             .foregroundStyle(.textGray)
@@ -79,8 +84,8 @@ struct MainViewMock: View {
                             DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
                         case .quiz(let keyword, let quiz):
                             QuizView(keyword: keyword, quiz: quiz, navigationPath: $navigationPath)
-                        case .quizResult(let keyword, let isCorrect):
-                            QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
+                        case .quizResult(let keyword, let quiz, let isCorrect):
+                            QuizResultView(keyword: keyword, quiz: quiz, isCorrect: isCorrect, navigationPath: $navigationPath)
                         case .sectionSelection(let keyword):
                             HighlightListView(keyword: keyword, navigationPath: $navigationPath)
                         case .archiveDetail(let keyword):

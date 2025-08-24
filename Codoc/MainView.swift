@@ -40,8 +40,8 @@ struct MainView: View {
                         DocsSummaryView(keyword: keyword, navigationPath: $navigationPath)
                     case .quiz(let keyword, let quiz):
                         QuizView(keyword: keyword, quiz: quiz, navigationPath: $navigationPath)
-                    case .quizResult(let keyword, let isCorrect):
-                        QuizResultView(keyword: keyword, isCorrect: isCorrect, navigationPath: $navigationPath)
+                    case .quizResult(let keyword, let quiz, let isCorrect):
+                        QuizResultView(keyword: keyword, quiz: quiz, isCorrect: isCorrect, navigationPath: $navigationPath)
                     case .sectionSelection(let keyword):
                         HighlightListView(keyword: keyword, navigationPath: $navigationPath)
                     case .archiveDetail(let keyword):

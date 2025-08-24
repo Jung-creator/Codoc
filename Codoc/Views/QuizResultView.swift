@@ -2,44 +2,92 @@ import SwiftUI
 
 struct QuizResultView: View {
     let keyword: String
+    let quiz: Quiz
     let isCorrect: Bool
     @Binding var navigationPath: NavigationPath
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(isCorrect ? "✅ 정답입니다!" : "❌ 틀렸습니다")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(isCorrect ? .green : .red)
+            Spacer()
+            Text(isCorrect ? "정답입니다" : "오답입니다")
+                .font(FontStyle.bold5.font)
+                .foregroundStyle(.textGray)
             
-            Text("\(keyword) 퀴즈 결과")
-                .font(.headline)
+            Text(quiz.answer.location)
+                .font(FontStyle.bold2.font)
+                .foregroundStyle(.captionGray)
+            Spacer()
+                .frame(height: 16)
+            Text(quiz.answer.reason)
+                .font(FontStyle.regular3.font)
+                .lineSpacing(FontStyle.regular3.lineSpacing)
+            Spacer()
+                .frame(height: 16)
             
             if isCorrect {
-                Button("섹션 선택하기") {
-                    navigationPath.append(AppNavigationPath.sectionSelection(keyword: keyword))
+                HStack {
+                    Button(
+                        action: {
+                            navigationPath.removeLast(navigationPath.count)
+                        }
+                    ) {
+                        HStack(spacing: 8) {
+                            Text("홈으로 가기")
+                                .font(FontStyle.bold3.font)
+                                .foregroundStyle(.white)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(.blueMain.opacity(0.5))
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(
+                        action: {
+                            navigationPath.append(AppNavigationPath.sectionSelection(keyword: keyword))
+                        }
+                    ) {
+                        HStack(spacing: 8) {
+                            Text("아카이빙 하기")
+                                .font(FontStyle.bold3.font)
+                                .foregroundStyle(.white)
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(.white)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(.blueMain)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
             } else {
-                Button("다시 풀기") {
-                    navigationPath.removeLast()
+                Button(
+                    action: {
+                        navigationPath.removeLast()
+                    }
+                ) {
+                    HStack(spacing: 8) {
+                        Text("다시 풀기")
+                            .font(FontStyle.bold3.font)
+                            .foregroundStyle(.white)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(.blueMain)
+                    )
                 }
-                .padding()
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+                .buttonStyle(PlainButtonStyle())
             }
-            
-            Button("메인으로 돌아가기") {
-                navigationPath.removeLast(navigationPath.count)
-            }
-            .padding()
-            .background(Color.gray)
-            .foregroundColor(.white)
-            .cornerRadius(8)
             
             Spacer()
         }

@@ -11,7 +11,7 @@ struct DocsSummaryView: View {
         self._navigationPath = navigationPath
         // API 키를 여기에 직접 입력하거나 환경변수에서 가져오기
         self._viewModel = StateObject(wrappedValue: DocsSummaryViewModel(
-            apiKey: "up_t0pjQtQK1gTSFUDVyX6sUE02HyDHR"
+            apiKey: ""
         ))
     }
     
@@ -49,36 +49,38 @@ struct DocsSummaryView: View {
                             Spacer()
                                 .frame(height: 24)
                             HStack {
+                                Image("target")
+                                    .resizable()
+                                    .frame(width: 48, height: 48)
                                 Text(keyword)
                                     .font(FontStyle.bold5.font)
                                     .foregroundStyle(.textGray)
-                                    .padding(.bottom)
                                 Spacer()
                             }
                             
-                            // 문서 요약 카드 컴포넌트
-                            DocsSummaryCard(
+                            // 문서 요약 카드 컴포넌트 (HighlightText 사용)
+                            DocsSummaryHighlightCard(
                                 title: "전체 개요",
-                                content: summary.overview.content)
+                                highlightText: summary.overview)
                             
                             CodeBlock(content: summary.codeSnippet)
                             
                             HStack {
-                                DocsSummaryHalfCard(title: "", content: summary.features[0].content)
+                                DocsSummaryHighlightHalfCard(title: "", highlightText: summary.features[0])
                                 Spacer()
-                                DocsSummaryHalfCard(title: "", content: summary.features[1].content)
+                                DocsSummaryHighlightHalfCard(title: "", highlightText: summary.features[1])
                             }
                             
-                            DocsSummaryCard(
+                            DocsSummaryHighlightCard(
                                 title: "주의 사항",
-                                content: summary.caution.content,
+                                highlightText: summary.caution,
                                 isDocs: false)
                             
                             DocsSummaryChipCard(title: "연관 키워드", keywords: summary.relatedKeywords)
                             
-                            DocsSummaryCard(
+                            DocsSummaryHighlightCard(
                                 title: "AI 전체 요약",
-                                content: summary.aiSummary.content,
+                                highlightText: summary.aiSummary,
                                 isDocs: false)
                             
                             NaviButton(title: "퀴즈 풀기") {
