@@ -78,7 +78,7 @@ struct DocsSummaryHighlightCard: View {
         VStack(alignment: .leading, spacing: 16) {
             // 제목 부분
             HStack(spacing: 8) {
-                Image("target")
+                Image("gear")
                     .resizable()
                     .frame(width: 30, height: 30)
                 
@@ -186,6 +186,8 @@ struct DocsSummaryHighlightHalfCard: View {
             Text(createHighlightedText(from: highlightText))
                 .font(FontStyle.regular3.font)
                 .lineSpacing(FontStyle.regular3.lineSpacing)
+            
+            Spacer()
             
             // 하단 문구
             Text(isDocs ? "Based on the official documentation" : "Created by Solar")

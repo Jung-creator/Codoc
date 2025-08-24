@@ -49,10 +49,12 @@ struct DocsSummaryView: View {
                             Spacer()
                                 .frame(height: 24)
                             HStack {
+                                Image("target")
+                                    .resizable()
+                                    .frame(width: 48, height: 48)
                                 Text(keyword)
                                     .font(FontStyle.bold5.font)
                                     .foregroundStyle(.textGray)
-                                    .padding(.bottom)
                                 Spacer()
                             }
                             
